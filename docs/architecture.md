@@ -11,12 +11,12 @@ The Data Dashboard is a lightweight analytics platform designed to:
 ## Architecture Diagram
 ```mermaid
    flowchart TD
-      A[CSV/SQL Data Source] --> B[Data Loader "(pandas/SQLAlchemy)"]
-      B --> C[Data Processing Layer "(filters, aggregations)"]
-      C --> D[Visualization Layer "(Plotly/Matplotlib)"]
-      D --> E[Web App Layer "(Dash/Streamlit)"]
+      A[CSV/SQL Data Source] --> B["Data Loader (pandas/SQLAlchemy)"]
+      B --> C["Data Processing Layer (filters, aggregations)"]
+      C --> D["Visualization Layer (Plotly/Matplotlib)"]
+      D --> E["Web App Layer (Dash/Streamlit)"]
       E --> F[User Browser]
-      C --> G[Exporters "(CSV/Excel/HTML)"]
+      C --> G["Exporters (CSV/Excel/HTML)"]
 ```
 
 ## Key Components
