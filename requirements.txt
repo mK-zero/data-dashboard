@@ -1,0 +1,8 @@
+pandas
+plotly
+streamlit
+dash
+sqlalchemy
+python-dotenv
+xlsxwriter
+pytest

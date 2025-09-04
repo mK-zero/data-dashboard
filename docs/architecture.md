@@ -11,12 +11,12 @@ The Data Dashboard is a lightweight analytics platform designed to:
 ## Architecture Diagram
 ```mermaid
    flowchart TD
-      A[CSV/SQL Data Source] --> B[Data Loader (pandas/SQLAlchemy)]
-      B --> C[Data Processing Layer (filters, aggregations)]
-      C --> D[Visualization Layer (Plotly/Matplotlib)]
-      D --> E[Web App Layer (Dash/Streamlit)]
+      A[CSV/SQL Data Source] --> B[Data Loader "(pandas/SQLAlchemy)"]
+      B --> C[Data Processing Layer "(filters, aggregations)"]
+      C --> D[Visualization Layer "(Plotly/Matplotlib)"]
+      D --> E[Web App Layer "(Dash/Streamlit)"]
       E --> F[User Browser]
-      C --> G[Exporters (CSV/Excel/HTML)]
+      C --> G[Exporters "(CSV/Excel/HTML)"]
 ```
 
 ## Key Components
@@ -55,12 +55,27 @@ The Data Dashboard is a lightweight analytics platform designed to:
 
 
 ## Design Principles
-
+  1.  **Separation of Concerns**
+    - Each module handles a single responsibility (e.g., loader vs processing vs visuals)
+  2.  **Extensibility**
+    - Plug=and-play visualization functions
+    - Additonal exporters can be added without altering app logic
+  3.  **Portability**
+    - Works with CSV and SQL backends
+    - UI can be run as Streamlit or Dash
+  4.  **Performance**
+    - Use of cahing to avoid reloading data unnecessarily
+    - Aggregations optimized with pandas groupby
 
 ## Data Flow
-
+  1.  User provides **CSV file** or **SQL credentials**
+  2.  `Data Loader` reads and normalizes data
+  3.  `Processing Layer` applies filters, aggregations, and sorting
+  4.  `Visualization Layer` generates interactive Plotly charts
+  5.  Results rendered in **Streamlit/Dash** and optionally exported
 
 ## Security
+  - **Current state**: No authentication. Intended for local or controlled deployment
 
 ## Testing & Quality Assurance
   - **Unit Tests**: Cover `processing.py` functions
