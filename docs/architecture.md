@@ -6,6 +6,7 @@ The Data Dashboard is a lightweight analytics platform designed to:
   - Clean, filter, and aggregate the data
   - Display interactive visualizations via **Streamlit** (primary) or **Dash** (alternative)
   - Export processed results to **CSV, Excel, or HTML reports**
+  - **Local authentication** with a demo user, role-based controls, and test coverage
 
 
 ## Architecture Diagram
@@ -75,12 +76,32 @@ The Data Dashboard is a lightweight analytics platform designed to:
   5.  Results rendered in **Streamlit/Dash** and optionally exported
 
 ## Security
-  - **Current state**: No authentication. Intended for local or controlled deployment
+  - **Credential storage**: bcrypt hashes via `passlib[bcrypt]`; never store plaintext passwords
+  - **Auth toggle**: `AUTH_ENABLED` allows local dev demos without login
+  - **RBAC**: `viewer` (read/export CSV), `admind` (Excel export, future adming routes)
+  - **Transport security**: recommend running Streamlit/Dash **behind a reverse proxy** (nginx/traefik) with TLS termination
+  - **Secrets**: `.env` not committed; use environment variables in production
+  - **Hardening backlog**: account lockout/backoff, audit log, password policy, SSO (OIDC) option
+
+## Deployment
+  - **Local (Developer)**
+  - **Docker**
+  - **CI/CD (GitHub Actions)**
+    - Steps: checkout -> setup Python -> install deps -> flake8 -> bandit -> pytest -> (optional) build/push Docker image on `main`
 
 ## Testing & Quality Assurance
   - **Unit Tests**: Cover `processing.py` functions
+    - **auth**: hash/verify, create_user, duplicate username, authenticate success/failure
+    - **processing**: date-filters (edges), aggregations (sum/mean/count), top-N correctness
+    - **loader**: malformed CSV, missing columns, SQL unavailable -> clear exceptions
   - **Integration Tests**: Validate CSV/SQL ingestion
+    - **CSV -> Processing -> Export**: golden result sets
+    - **SQL Ingestion path**: with a throwaway SQLite/Postgres container (CI matrix job)
   - **Manual Tests**: Verify UI, uploads, chart interactions, and exports
+    - Streamlit UI flows (login/logout, upload, filter controls, chart switches)
+  - **Coverage Targets**:
+    - Lines >= 80%; critical modules (auth/processing) >= 90%
+    - Static analysis: `flake8`, security lint: `bandit -r core -x tests`
 
 ## Future Improvements
   - Authentication for private dashboards (OAuth, SSO).
