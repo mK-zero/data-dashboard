@@ -18,6 +18,12 @@ The Data Dashboard is a lightweight analytics platform designed to:
       D --> E["Web App Layer (Dash/Streamlit)"]
       E --> F[User Browser]
       C --> G["Exporters (CSV/Excel/HTML)"]
+      subgraph Auth & Persistence
+        H["Authentication (hash/verify, CRUD)"] --> I["(SQLite / AUTH_DATABASE_URL)"]
+        J["Database engine/session"]
+        H -- J
+      end
+      E --> H
 ```
 
 ## Key Components
